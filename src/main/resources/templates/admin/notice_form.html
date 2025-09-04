@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>공지 작성/수정</title></head>
+<body>
+<h1 th:text="${noticeDto.id == null ? '공지 작성' : '공지 수정'}">공지</h1>
+<form th:action="${noticeDto.id == null} ? @{/admin/notices} : @{/admin/notices/{id}/edit(id=${noticeDto.id})}" method="post" th:object="${noticeDto}">
+  <div>
+    <label>제목</label>
+    <input type="text" th:field="*{title}"/>
+    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+  </div>
+  <div>
+    <label>내용</label>
+    <textarea th:field="*{content}" rows="10" cols="60"></textarea>
+    <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+  </div>
+  <div>
+    <button type="submit">저장</button>
+  </div>
+</form>
+
+<a th:href="@{/admin/notices}">목록으로</a>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>사용자 관리</title></head>
+<body>
+<h1>사용자 목록</h1>
+<table border="1">
+  <thead><tr><th>ID</th><th>아이디</th><th>이름</th><th>이메일</th><th>상태</th><th>관리</th></tr></thead>
+  <tbody>
+  <tr th:each="u : ${users}">
+    <td th:text="${u.id}">1</td>
+    <td th:text="${u.username}">user1</td>
+    <td th:text="${u.name}">홍길동</td>
+    <td th:text="${u.email}">a@b.com</td>
+    <td th:text="${u.enabled ? '활성' : '정지'}">활성</td>
+    <td>
+      <form th:action="@{|/admin/users/${u.id}/disable|}" method="post" style="display:inline">
+        <button type="submit" th:if="${u.enabled}">정지</button>
+      </form>
+      <form th:action="@{|/admin/users/${u.id}/enable|}" method="post" style="display:inline">
+        <button type="submit" th:if="${!u.enabled}">복구</button>
+      </form>
+      <form th:action="@{|/admin/users/${u.id}/delete|}" method="post" style="display:inline">
+        <button type="submit" onclick="return confirm('삭제하시겠습니까?')">삭제</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<a th:href="@{/admin/notices}">공지 관리</a>
+</body>
+</html>

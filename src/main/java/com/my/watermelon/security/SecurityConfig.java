@@ -36,10 +36,16 @@ public class SecurityConfig {
                         .requestMatchers("/css/**","/js/**","/images/**","/login","/").permitAll()
                         .anyRequest().authenticated()
                 )
+                // ✅ 기존 formLogin 유지 (내 계정 로그인)
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/admin", true)
                         .permitAll()
+                )
+                // ✅ OAuth2 로그인 추가 (Spotify 로그인)
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login") // 같은 로그인 페이지에서 처리
+                        .defaultSuccessUrl("/spotify/callback", true) // 로그인 성공 후 처리할 경로
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -50,4 +56,6 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
 }

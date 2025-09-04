@@ -29,5 +29,19 @@ public class DataInitializer implements CommandLineRunner {
             userRepository.save(admin);
             System.out.println("Admin user created: admin / 1111");
         }
+        // 일반 유저 계정
+        if(userRepository.findByUsername("user").isEmpty()) {
+            User user = User.builder()
+                    .username("user")
+                    .password(passwordEncoder.encode("1234"))
+                    .name("일반유저")
+                    .email("user@example.com")
+                    .roles(Set.of("ROLE_USER"))  // 일반 유저니까 ROLE_USER만
+                    .enabled(true)
+                    .build();
+            userRepository.save(user);
+            System.out.println("Regular user created: user / 1234");
+        }
     }
+
 }
